@@ -1,47 +1,20 @@
-import {createAppContainer} from 'react-navigation';
-import {createStackNavigator} from 'react-navigation-stack';
-
 import * as React from 'react';
 import {Button, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
-import Adddata from '../component/screen/Adddata';
-import Showdata from '../component/screen/Showdata';
-import Editdata from '../component/screen/Editdata';
-
-const stack = createStackNavigator({
-  Showdata: {
-    screen: Showdata,
-  },
-
-  Adddata: {
-    screen: Adddata,
-  },
-
-  Editdata: {
-    screen: Editdata,
-  },
-});
-
-const HomeStack = createAppContainer(stack);
-export default HomeStack;
-
-/****
- *
- *
- *
- */
+import Adddatacls from '../component/screen/Adddata';
+import Showdatacls from '../component/screen/Showdata';
+import Editdatacls from '../component/screen/Editdata';
 
 const Stack = createStackNavigator();
 
 function MyStack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Home" component={HomeScreen} />
-      <Stack.Screen name="Notifications" component={NotificationsScreen} />
-      <Stack.Screen name="Profile" component={ProfileScreen} />
-      <Stack.Screen name="Settings" component={SettingsScreen} />
+      <Stack.Screen name="Showdata" component={Showdatacls} />
+      <Stack.Screen name="Editdata" component={Editdatacls} />
+      <Stack.Screen name="Adddata" component={Adddatacls} />
     </Stack.Navigator>
   );
 }

@@ -8,12 +8,12 @@ import {
 } from 'react-native';
 import axios from 'axios';
 
-class Editdata extends React.Component {
+class Editdatacls extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      TextInput_Student_ID: '',
+      TextInput_ID: '',
       TextInput_Student_Name: '',
       TextInput_Student_Class: '',
       TextInput_Student_PhoneNumber: '',
@@ -23,34 +23,50 @@ class Editdata extends React.Component {
 
   componentDidMount() {
     // Received Student Details Sent From Previous Activity and Set Into State.
+    //console.log(this.props.route.params);
+
     this.setState({
-      TextInput_Student_ID: this.props.navigation.state.params.ID,
-      TextInput_Student_Name: this.props.navigation.state.params.NAME,
-      TextInput_Student_Class: this.props.navigation.state.params.CLASS,
-      TextInput_Student_PhoneNumber: this.props.navigation.state.params
-        .PHONE_NUMBER,
-      TextInput_Student_Email: this.props.navigation.state.params.EMAIL,
+      TextInput_ID: this.props.route.params.ID,
+      TextInput_Student_Name: this.props.route.params.NAME,
+      TextInput_Student_Class: this.props.route.params.CLASS,
+      TextInput_Student_PhoneNumber: this.props.route.params.PHONE_NUMBER,
+      TextInput_Student_Email: this.props.route.params.EMAIL,
     });
   }
 
-  editdata = () => {
+  editData = () => {
     axios
-      .post('http://laravel.rue.stoss-medica.int/api/students', {
-        student_id: this.state.TextInput_Student_ID,
-        student_name: this.state.TextInput_Student_Name,
-        student_class: this.state.TextInput_Student_Class,
-        student_phone_number: this.state.TextInput_Student_PhoneNumber,
-        student_email: this.state.TextInput_Student_Email,
+      .put(
+        `http://laravel.rue.stoss-medica.int/api/students/${this.state.TextInput_ID}`,
+        {
+          //id: this.state.TextInput_ID,
+          student_name: this.state.TextInput_Student_Name,
+          student_class: this.state.TextInput_Student_Class,
+          student_phone_number: this.state.TextInput_Student_PhoneNumber,
+          student_email: this.state.TextInput_Student_Email,
+        },
+      )
+      .then(res => {
+        console.log('Data Saved');
       })
-      .then(res => console.log(res))
-      .catch(err => console.log(err));
+      .catch(err => console.log('Error123:', err));
+
+    //setTimeout(this.props.navigation.navigate('Showdata'), 3000);
+    /*
+    this.setTimeout(function() {
+      this.props.navigation.navigate('Showdata');
+    }, 1000);
+    */
   };
 
-  deletedata = () => {
+  deleteData = () => {
     axios
-      .post('http://laravel.rue.stoss-medica.int/api/students', {
-        student_id: this.state.TextInput_Student_ID,
-      })
+      .delete(
+        `http://laravel.rue.stoss-medica.int/api/students/${this.state.TextInput_ID}`,
+        {
+          //id: this.state.TextInput_ID,
+        },
+      )
 
       .then(res => console.log(res))
       .catch(err => console.log(err));
@@ -109,15 +125,22 @@ class Editdata extends React.Component {
         <TouchableOpacity
           activeOpacity={0.4}
           style={styles.Btn_AddData}
-          onPress={this.editdata}>
+          onPress={this.editData}>
           <Text style={styles.StyleAddData}> Edit Data </Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           activeOpacity={0.4}
           style={styles.Btn_AddData}
-          onPress={this.deletedata}>
+          onPress={this.deleteData}>
           <Text style={styles.StyleAddData}> Delete Data </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          activeOpacity={0.4}
+          style={styles.Btn_AddData}
+          onPress={() => this.props.navigation.navigate('Showdata')}>
+          <Text style={styles.StyleAddData}> Show All DATA </Text>
         </TouchableOpacity>
       </View>
     );
@@ -157,4 +180,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Editdata;
+export default Editdatacls;

@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import axios from 'axios';
 
-class AddData extends React.Component {
+class Adddatacls extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -33,7 +33,7 @@ class AddData extends React.Component {
         student_email: this.state.TextInput_Student_Email,
       })
       .then(res => {
-        console.log(res);
+        //console.log(res);
       })
       .catch(err => consule.log(err));
   };
@@ -88,7 +88,7 @@ class AddData extends React.Component {
           activeOpacity={0.4}
           style={styles.Btn_AddData}
           onPress={this.adddata}>
-          <Text style={styles.StyleAddData}> Addkan Data</Text>
+          <Text style={styles.StyleAddData}> Add Data</Text>
         </TouchableOpacity>
       </View>
     );
@@ -128,4 +128,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddData;
+export default Adddatacls;

@@ -13,34 +13,47 @@ import {
 } from 'react-native';
 import axios from 'axios';
 
-class ShowData extends React.Component {
+class Showdatacls extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       data: [],
     };
   }
+  //componentDidUpdate() {
+  //console.log('reload Screen');
+  //this.getData();
+  //}
+
+  getData = () => {
+    setTimeout(() => {
+      //Alert.alert('Daten werden geladen!');
+
+      axios
+        .get(`http://laravel.rue.stoss-medica.int/api/students`)
+        .then(res => {
+          console.log('GET DATA ');
+          const data = res.data;
+          this.setState({data});
+        })
+        .catch(err => console.log('GET Error: ', err));
+    }, 3000);
+  };
 
   componentDidMount() {
-    axios
-      .get(`http://laravel.rue.stoss-medica.int/api/students`)
-      .then(res => {
-        console.log(res.data);
-        const data = res.data;
-        this.setState({data});
-      })
-      .catch(err => consule.log(err));
+    console.log('first mount component');
+    this.getData();
   }
 
-  AmbildataCuy = (
-    student_id,
+  showDataItem = (
+    id,
     student_name,
     student_class,
     student_phone_number,
     student_email,
   ) => {
     this.props.navigation.navigate('Editdata', {
-      ID: student_id,
+      ID: id,
       NAME: student_name,
       CLASS: student_class,
       PHONE_NUMBER: student_phone_number,
@@ -50,7 +63,7 @@ class ShowData extends React.Component {
 
   renderItems = ({item, index}) => {
     const {
-      student_id,
+      id,
       student_name,
       student_class,
       student_phone_number,
@@ -59,16 +72,16 @@ class ShowData extends React.Component {
     return (
       <View style={{flex: 1}}>
         <TouchableOpacity
-          onPress={this.AmbildataCuy.bind(
+          onPress={this.showDataItem.bind(
             this,
-            student_id,
+            id,
             student_name,
             student_class,
             student_phone_number,
             student_email,
           )}>
           <Text>
-            {student_id} . {student_name}
+            {id} . {student_name}
           </Text>
           <Text> {student_class}</Text>
           <Text> {student_phone_number}</Text>
@@ -80,9 +93,9 @@ class ShowData extends React.Component {
 
   render() {
     YellowBox.ignoreWarnings(['Encountered', 'ReferenceError']);
-
+    const test = test ? test : '';
     return (
-      <View style={{flex: 1}}>
+      <View style={styles.MainContainer}>
         <View style={{height: '90%'}}>
           <FlatList
             data={this.state.data}
@@ -90,15 +103,54 @@ class ShowData extends React.Component {
             renderItem={this.renderItems}
           />
         </View>
+
         <TouchableOpacity
+          activeOpacity={0.4}
+          style={styles.Btn_AddData}
           onPress={() => this.props.navigation.navigate('Adddata')}>
-          <View style={{alignItems: 'center', justifyContent: 'center'}}>
-            <Text style={{textAlign: 'center'}}>Add Data</Text>
-          </View>
+          <Text style={styles.StyleAddData}> Add-DATA </Text>
         </TouchableOpacity>
       </View>
     );
   }
 }
 
-export default ShowData;
+const styles = StyleSheet.create({
+  MainContainer: {
+    flex: 1,
+    paddingTop: 30,
+    paddingLeft: 10,
+    backgroundColor: '#fff',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+    borderColor: 'skyblue',
+    borderWidth: 3,
+  },
+
+  StylingTextInput: {
+    textAlign: 'right',
+    width: '90%',
+    marginBottom: 7,
+    height: 40,
+    borderWidth: 1,
+    borderColor: '#075e54',
+    borderRadius: 5,
+  },
+
+  Btn_AddData: {
+    paddingTop: 10,
+    paddingBottom: 10,
+    borderRadius: 5,
+    marginBottom: 7,
+    width: '90%',
+    backgroundColor: '#00BCD4',
+  },
+
+  StyleAddData: {
+    color: '#fff',
+    textAlign: 'center',
+  },
+});
+export default Showdatacls;
